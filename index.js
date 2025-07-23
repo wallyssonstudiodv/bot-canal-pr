@@ -98,6 +98,30 @@ async function startBot() {
             console.error('❌ Erro no webhook:', err.message)
         }
     })
+
+    // ⏰ Envio automático de mensagens às 08:00, 12:00 e 18:00
+    setInterval(async () => {
+        const agora = new Date()
+        const horas = agora.getHours()
+        const minutos = agora.getMinutes()
+
+        const horariosPermitidos = [
+            { hora: 8, mensagem: "🌞 Bom dia, grupo! Vamos começar o dia com energia!" },
+            { hora: 12, mensagem: "🍽️ Boa tarde! Hora do almoço, aproveitem!" },
+            { hora: 18, mensagem: "🌇 Boa noite, pessoal! Como foi o dia de vocês?" }
+        ]
+
+        for (let h of horariosPermitidos) {
+            if (horas === h.hora && minutos === 0) {
+                try {
+                    await sock.sendMessage(GRUPO_AUTORIZADO, { text: h.mensagem })
+                    console.log(`✅ Mensagem enviada automaticamente às ${h.hora}:00`)
+                } catch (err) {
+                    console.error(`❌ Erro ao enviar mensagem automática das ${h.hora}:`, err.message)
+                }
+            }
+        }
+    }, 60000) // Verifica a cada minuto
 }
 
 startBot()
