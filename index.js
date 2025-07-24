@@ -65,7 +65,7 @@ async function iniciarBot() {
   }
 
   // Agendamento: 07:20, 12:40 e 18:00
-  cron.schedule('20 7 * * *', enviarVideo);
+  cron.schedule('30 7 * * *', enviarVideo);
   cron.schedule('40 23 * * *', enviarVideo);
   cron.schedule('0 18 * * *', enviarVideo);
 }
