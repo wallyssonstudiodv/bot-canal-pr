@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp YouTube Bot - Gerenciador</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 50%, #2c1810 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #1e40af 0%, #dc2626 100%);
+            padding: 30px;
+            border-radius: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .header p {
+            text-align: center;
+            opacity: 0.9;
+            font-size: 1.1rem;
+        }
+
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(15, 20, 25, 0.8);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #dc2626;
+            animation: pulse 2s infinite;
+        }
+
+        .status-indicator.connected {
+            background: #10b981;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: rgba(15, 20, 25, 0.9);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .card h2 {
+            color: #60a5fa;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .qr-container {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .qr-code {
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            display: inline-block;
+            margin: 20px 0;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .qr-code img {
+            max-width: 250px;
+            height: auto;
+        }
+
+        .connection-status {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #10b981;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #cbd5e1;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 12px 16px;
+            background: rgba(30, 41, 59, 0.8);
+            border: 2px solid rgba(100, 116, 139, 0.3);
+            border-radius: 10px;
+            color: #e2e8f0;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        select.form-control {
+            cursor: pointer;
+        }
+
+        .checkbox-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #3b82f6;
+        }
+
+        .groups-container {
+            max-height: 300px;
+            overflow-y: auto;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 10px;
+        }
+
+        .group-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 10px;
+            border-radius: 8px;
+            margin-bottom: 8px;
+            transition: background 0.2s;
+        }
+
+        .group-item:hover {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        .group-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            accent-color: #3b82f6;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(239, 68, 68, 0.4);
+        }
+
+        .schedule-list {
+            margin-top: 30px;
+        }
+
+        .schedule-item {
+            background: rgba(30, 41, 59, 0.8);
+            border-radius: 15px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(100, 116, 139, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .schedule-item:hover {
+            border-color: #3b82f6;
+            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.2);
+        }
+
+        .schedule-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .schedule-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #60a5fa;
+        }
+
+        .schedule-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .schedule-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #cbd5e1;
+        }
+
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-active {
+            background: #10b981;
+            color: white;
+        }
+
+        .status-inactive {
+            background: #6b7280;
+            color: white;
+        }
+
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 20px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            z-index: 1000;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast-success {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+        }
+
+        .toast-error {
+            background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+        }
+
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #64748b;
+        }
+
+        .empty-state i {
+            font-size: 3rem;
+            margin-bottom: 20px;
+            color: #475569;
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .status-bar {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fab fa-whatsapp"></i> WhatsApp YouTube Bot</h1>
+            <p>Gerencie seus agendamentos de vídeos do YouTube para grupos do WhatsApp</p>
+        </div>
+
+        <div class="status-bar">
+            <div class="status-item">
+                <div class="status-indicator" id="connectionStatus"></div>
+                <span>Status: <strong id="statusText">Desconectado</strong></span>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-users"></i>
+                <span>Grupos: <strong id="groupCount">0</strong></span>
+            </div>
+            <div class="status-item">
+                <i class="fas fa-clock"></i>
+                <span>Agendamentos: <strong id="scheduleCount">0</strong></span>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="card">
+                <h2><i class="fas fa-qrcode"></i> Conexão WhatsApp</h2>
+                <div class="qr-container" id="qrContainer">
+                    <div class="connection-status" id="connectionMessage">
+                        Aguardando conexão...
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2><i class="fas fa-plus-circle"></i> Novo Agendamento</h2>
+                <form id="scheduleForm">
+                    <div class="form-group">
+                        <label for="scheduleName">Nome do Agendamento</label>
+                        <input type="text" id="scheduleName" class="form-control" placeholder="Ex: Vídeos Diários" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="scheduleTime">Horário</label>
+                        <div style="display: flex; gap: 10px;">
+                            <select id="scheduleHour" class="form-control" required>
+                                <option value="">Hora</option>
+                            </select>
+                            <select id="scheduleMinute" class="form-control" required>
+                                <option value="">Minuto</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Dias da Semana</label>
+                        <div class="checkbox-group">
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="day0" value="0">
+                                <label for="day0">Dom</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="day1" value="1">
+                                <label for="day1">Seg</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="day2" value="2">
+                                <label for="day2">Ter</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="day3" value="3">
+                                <label for="day3">Qua</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="day4" value="4">
+                                <label for="day4">Qui</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="day5" value="5">
+                                <label for="day5">Sex</label>
+                            </div>
+                            <div class="checkbox-item">
+                                <input type="checkbox" id="day6" value="6">
+                                <label for="day6">Sáb</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Selecionar Grupos</label>
+                        <div class="groups-container" id="groupsContainer">
+                            <div class="empty-state">
+                                <i class="fas fa-users"></i>
+                                <p>Conecte o WhatsApp para ver os grupos</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="display: flex; gap: 10px; margin-top: 20px;">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i> Salvar Agendamento
+                        </button>
+                        <button type="button" class="btn btn-success" id="testSend">
+                            <i class="fas fa-paper-plane"></i> Testar Envio
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="card">
+            <h2><i class="fas fa-list"></i> Agendamentos Ativos</h2>
+            <div class="schedule-list" id="scheduleList">
+                <div class="empty-state">
+                    <i class="fas fa-calendar-times"></i>
+                    <p>Nenhum agendamento criado ainda</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let groups = [];
+        let schedules = [];
+        let isConnected = false;
+
+        // Inicializar horários
+        function initializeTimeSelectors() {
+            const hourSelect = document.getElementById('scheduleHour');
+            const minuteSelect = document.getElementById('scheduleMinute');
+
+            for (let i = 0; i < 24; i++) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = i.toString().padStart(2, '0');
+                hourSelect.appendChild(option);
+            }
+
+            for (let i = 0; i < 60; i += 5) {
+                const option = document.createElement('option');
+                option.value = i;
+                option.textContent = i.toString().padStart(2, '0');
+                minuteSelect.appendChild(option);
+            }
+        }
+
+        // Mostrar toast
+        function showToast(message, type = 'success') {
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.textContent = message;
+            document.body.appendChild(toast);
+
+            setTimeout(() => toast.classList.add('show'), 100);
+            setTimeout(() => {
+                toast.classList.remove('show');
+                setTimeout(() => document.body.removeChild(toast), 300);
+            }, 3000);
+        }
+
+        // Atualizar status
+        async function updateStatus() {
+            try {
+                const response = await fetch('/api/status');
+                const data = await response.json();
+
+                const statusIndicator = document.getElementById('connectionStatus');
+                const statusText = document.getElementById('statusText');
+                const groupCount = document.getElementById('groupCount');
+                const scheduleCount = document.getElementById('scheduleCount');
+                const qrContainer = document.getElementById('qrContainer');
+                const connectionMessage = document.getElementById('connectionMessage');
+
+                isConnected = data.isReady;
+
+                if (data.isReady) {
+                    statusIndicator.classList.add('connected');
+                    statusText.textContent = 'Conectado';
+                    connectionMessage.innerHTML = '<i class="fas fa-check-circle" style="color: #10b981; font-size: 2rem; margin-bottom: 10px;"></i><br>WhatsApp conectado com sucesso!';
+                } else if (data.qrCode) {
+                    statusIndicator.classList.remove('connected');
+                    statusText.textContent = 'Aguardando QR Code';
+                    qrContainer.innerHTML = `
+                        <div class="connection-status">Escaneie o QR Code com seu WhatsApp</div>
+                        <div class="qr-code">
+                            <img src="${data.qrCode}" alt="QR Code">
+                        </div>
+                        <p style="color: #64748b; margin-top: 10px;">
+                            Abra o WhatsApp > Menu > Aparelhos conectados > Conectar um aparelho
+                        </p>
+                    `;
+                } else {
+                    statusIndicator.classList.remove('connected');
+                    statusText.textContent = 'Desconectado';
+                    connectionMessage.innerHTML = '<div class="loading"></div><br>Iniciando conexão...';
+                }
+
+                groupCount.textContent = data.groupCount || 0;
+                scheduleCount.textContent = data.scheduleCount || 0;
+
+            } catch (error) {
+                console.error('Erro ao atualizar status:', error);
+            }
+        }
+
+        // Carregar grupos
+        async function loadGroups() {
+            try {
+                const response = await fetch('/api/groups');
+                groups = await response.json();
+                renderGroups();
+            } catch (error) {
+                console.error('Erro ao carregar grupos:', error);
+            }
+        }
+
+        // Renderizar grupos
+        function renderGroups() {
+            const container = document.getElementById('groupsContainer');
+            
+            if (!groups.length) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-users"></i>
+                        <p>Nenhum grupo encontrado</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = groups.map(group => `
+                <div class="group-item">
+                    <input type="checkbox" id="group_${group.id}" value="${group.id}">
+                    <label for="group_${group.id}">${group.name}</label>
+                </div>
+            `).join('');
+        }
+
+        // Carregar agendamentos
+        async function loadSchedules() {
+            try {
+                const response = await fetch('/api/schedules');
+                schedules = await response.json();
+                renderSchedules();
+            } catch (error) {
+                console.error('Erro ao carregar agendamentos:', error);
+            }
+        }
+
+        // Renderizar agendamentos
+        function renderSchedules() {
+            const container = document.getElementById('scheduleList');
+            
+            if (!schedules.length) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <i class="fas fa-calendar-times"></i>
+                        <p>Nenhum agendamento criado ainda</p>
+                    </div>
+                `;
+                return;
+            }
+
+            const dayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+
+            container.innerHTML = schedules.map(schedule => {
+                const selectedGroups = groups.filter(g => schedule.groups.includes(g.id));
+                const daysText = schedule.days.map(d => dayNames[d]).join(', ');
+                const timeText = `${schedule.hour.toString().padStart(2, '0')}:${schedule.minute.toString().padStart(2, '0')}`;
+
+                return `
+                    <div class="schedule-item">
+                        <div class="schedule-header">
+                            <div class="schedule-name">${schedule.name}</div>
+                            <div class="schedule-actions">
+                                <span class="status-badge ${schedule.active ? 'status-active' : 'status-inactive'}">
+                                    ${schedule.active ? 'Ativo' : 'Inativo'}
+                                </span>
+                                <button class="btn btn-primary" onclick="toggleSchedule('${schedule.id}')">
+                                    <i class="fas fa-${schedule.active ? 'pause' : 'play'}"></i>
+                                </button>
+                                <button class="btn btn-danger" onclick="deleteSchedule('${schedule.id}')">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="schedule-info">
+                            <div class="info-item">
+                                <i class="fas fa-clock"></i>
+                                <span>Horário: ${timeText}</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-calendar"></i>
+                                <span>Dias: ${daysText}</span>
+                            </div>
+                            <div class="info-item">
+                                <i class="fas fa-users"></i>
+                                <span>Grupos: ${selectedGroups.length}</span>
+                            </div>
+                        </div>
+                        <div style="margin-top: 10px; color: #64748b; font-size: 0.9rem;">
+                            Grupos: ${selectedGroups.map(g => g.name).join(', ')}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Alternar status do agendamento
+        async function toggleSchedule(id) {
+            try {
+                const schedule = schedules.find(s => s.id === id);
+                const response = await fetch(`/api/schedules/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ active: !schedule.active })
+                });
+
+                if (response.ok) {
+                    showToast(`Agendamento ${schedule.active ? 'desativado' : 'ativado'} com sucesso!`);
+                    loadSchedules();
+                } else {
+                    showToast('Erro ao alterar agendamento', 'error');
+                }
+            } catch (error) {
+                console.error('Erro ao alterar agendamento:', error);
+                showToast('Erro ao alterar agendamento', 'error');
+            }
+        }
+
+        // Deletar agendamento
+        async function deleteSchedule(id) {
+            if (!confirm('Tem certeza que deseja deletar este agendamento?')) return;
+
+            try {
+                const response = await fetch(`/api/schedules/${id}`, {
+                    method: 'DELETE'
+                });
+
+                if (response.ok) {
+                    showToast('Agendamento deletado com sucesso!');
+                    loadSchedules();
+                    updateStatus();
+                } else {
+                    showToast('Erro ao deletar agendamento', 'error');
+                }
+            } catch (error) {
+                console.error('Erro ao deletar agendamento:', error);
+                showToast('Erro ao deletar agendamento', 'error');
+            }
+        }
+
+        // Envio do formulário
+        document.getElementById('scheduleForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const name = document.getElementById('scheduleName').value;
+            const hour = document.getElementById('scheduleHour').value;
+            const minute = document.getElementById('scheduleMinute').value;
+            
+            const days = Array.from(document.querySelectorAll('input[type="checkbox"][id^="day"]:checked'))
+                .map(cb => parseInt(cb.value));
+            
+            const selectedGroups = Array.from(document.querySelectorAll('#groupsContainer input[type="checkbox"]:checked'))
+                .map(cb => cb.value);
+
+            if (!name || hour === '' || minute === '' || !days.length || !selectedGroups.length) {
+                showToast('Preencha todos os campos obrigatórios', 'error');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/schedules', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name,
+                        hour: parseInt(hour),
+                        minute: parseInt(minute),
+                        days,
+                        groups: selectedGroups
+                    })
+                });
+
+                if (response.ok) {
+                    showToast('Agendamento criado com sucesso!');
+                    document.getElementById('scheduleForm').reset();
+                    loadSchedules();
+                    updateStatus();
+                } else {
+                    const error = await response.json();
+                    showToast(error.error || 'Erro ao criar agendamento', 'error');
+                }
+            } catch (error) {
+                console.error('Erro ao criar agendamento:', error);
+                showToast('Erro ao criar agendamento', 'error');
+            }
+        });
+
+        // Testar envio
+        document.getElementById('testSend').addEventListener('click', async () => {
+            const selectedGroups = Array.from(document.querySelectorAll('#groupsContainer input[type="checkbox"]:checked'))
+                .map(cb => cb.value);
+
+            if (!selectedGroups.length) {
+                showToast('Selecione pelo menos um grupo', 'error');
+                return;
+            }
+
+            if (!isConnected) {
+                showToast('WhatsApp não está conectado', 'error');
+                return;
+            }
+
+            const btn = document.getElementById('testSend');
+            btn.innerHTML = '<div class="loading"></div> Enviando...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch('/api/test-send', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ groups: selectedGroups })
+                });
+
+                if (response.ok) {
+                    showToast('Vídeo enviado com sucesso!');
+                } else {
+                    const error = await response.json();
+                    showToast(error.error || 'Erro ao enviar vídeo', 'error');
+                }
+            } catch (error) {
+                console.error('Erro ao enviar vídeo:', error);
+                showToast('Erro ao enviar vídeo', 'error');
+            } finally {
+                btn.innerHTML = '<i class="fas fa-paper-plane"></i> Testar Envio';
+                btn.disabled = false;
+            }
+        });
+
+        // Inicializar
+        initializeTimeSelectors();
+        updateStatus();
+        loadGroups();
+        loadSchedules();
+
+        // Atualizar periodicamente
+        setInterval(() => {
+            if (!isConnected) {
+                updateStatus();
+            }
+        }, 5000);
+
+        setInterval(() => {
+            if (isConnected) {
+                loadGroups();
+                loadSchedules();
+            }
+        }, 30000);
+    </script>
+</body>
+</html>
