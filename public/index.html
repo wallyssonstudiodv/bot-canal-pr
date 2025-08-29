@@ -1,10 +1,6 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - WhatsApp YouTube Bot</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<title>WhatsApp YouTube Bot - Wallysson Studio Dv 2025</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -14,234 +10,463 @@
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 50%, #2c1810 100%);
-            color: #e2e8f0;
+            background: linear-gradient(135deg, #0f1419 0%, #1a1f2e 50%, #2d1b2e 100%);
+            color: #ffffff;
             min-height: 100vh;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(66, 165, 245, 0.2);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            justify-content: center;
-            overflow: hidden;
-        }
-
-        .background-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.1;
-        }
-
-        .floating-element {
-            position: absolute;
-            border-radius: 50%;
-            background: linear-gradient(45deg, #3b82f6, #dc2626);
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .floating-element:nth-child(1) {
-            width: 80px;
-            height: 80px;
-            top: 20%;
-            left: 10%;
-            animation-delay: -0.5s;
-        }
-
-        .floating-element:nth-child(2) {
-            width: 60px;
-            height: 60px;
-            top: 60%;
-            right: 15%;
-            animation-delay: -2s;
-        }
-
-        .floating-element:nth-child(3) {
-            width: 100px;
-            height: 100px;
-            bottom: 20%;
-            left: 20%;
-            animation-delay: -4s;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0px) rotate(0deg); }
-            33% { transform: translateY(-20px) rotate(120deg); }
-            66% { transform: translateY(10px) rotate(240deg); }
-        }
-
-        .login-container {
-            background: rgba(15, 20, 25, 0.95);
-            padding: 50px;
-            border-radius: 25px;
-            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(20px);
-            width: 100%;
-            max-width: 450px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .login-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, #3b82f6 0%, #dc2626 100%);
         }
 
         .logo {
-            text-align: center;
-            margin-bottom: 40px;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 1.5rem;
+            font-weight: bold;
         }
 
         .logo i {
-            font-size: 4rem;
-            background: linear-gradient(135deg, #25d366 0%, #075e54 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-            margin-bottom: 20px;
-            display: block;
-        }
-
-        .logo h1 {
+            color: #42a5f5;
             font-size: 2rem;
-            font-weight: 700;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, #60a5fa 0%, #f87171 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
         }
 
-        .logo p {
-            color: #94a3b8;
-            font-size: 1rem;
-        }
-
-        .form-tabs {
-            display: flex;
-            margin-bottom: 30px;
-            background: rgba(30, 41, 59, 0.8);
-            border-radius: 15px;
-            padding: 5px;
-        }
-
-        .tab-button {
-            flex: 1;
-            padding: 15px;
-            background: none;
-            border: none;
-            color: #94a3b8;
-            font-weight: 600;
-            border-radius: 10px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1rem;
-        }
-
-        .tab-button.active {
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
-            color: white;
-            box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
-        }
-
-        .form-content {
+        .user-info {
             display: none;
+            align-items: center;
+            gap: 1rem;
         }
 
-        .form-content.active {
-            display: block;
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-            position: relative;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            color: #cbd5e1;
-            font-weight: 500;
-            font-size: 0.9rem;
-        }
-
-        .input-container {
-            position: relative;
-        }
-
-        .form-control {
-            width: 100%;
-            padding: 15px 20px 15px 50px;
-            background: rgba(30, 41, 59, 0.8);
-            border: 2px solid rgba(100, 116, 139, 0.3);
-            border-radius: 12px;
-            color: #e2e8f0;
-            font-size: 1rem;
-            transition: all 0.3s ease;
-            font-family: inherit;
-        }
-
-        .form-control:focus {
-            outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
-            background: rgba(30, 41, 59, 1);
-        }
-
-        .input-icon {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #64748b;
-            font-size: 1.1rem;
-        }
-
-        .btn {
-            width: 100%;
-            padding: 15px;
-            border: none;
-            border-radius: 12px;
-            cursor: pointer;
-            font-size: 1.1rem;
-            font-weight: 600;
-            transition: all 0.3s ease;
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #42a5f5, #ef5350);
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
         }
 
         .btn-primary {
-            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            background: linear-gradient(45deg, #42a5f5, #1976d2);
             color: white;
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+            box-shadow: 0 8px 25px rgba(66, 165, 245, 0.4);
         }
 
-        .btn-primary:disabled {
-            opacity: 0.6;
-            cursor: not-allowed;
-            transform: none;
+        .btn-danger {
+            background: linear-gradient(45deg, #ef5350, #d32f2f);
+            color: white;
         }
 
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(239, 83, 80, 0.4);
+        }
+
+        .btn-success {
+            background: linear-gradient(45deg, #4caf50, #388e3c);
+            color: white;
+        }
+
+        .btn-success:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(76, 175, 80, 0.4);
+        }
+
+        .main-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Auth Forms */
+        .auth-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 80vh;
+        }
+
+        .auth-box {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            width: 100%;
+            max-width: 450px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.3);
+        }
+
+        .auth-title {
+            text-align: center;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+            background: linear-gradient(45deg, #42a5f5, #ef5350);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #b3b3b3;
+            font-weight: 500;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            outline: none;
+            border-color: #42a5f5;
+            box-shadow: 0 0 20px rgba(66, 165, 245, 0.3);
+        }
+
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .auth-switch {
+            text-align: center;
+            margin-top: 2rem;
+            color: #b3b3b3;
+        }
+
+        .auth-switch button {
+            background: none;
+            border: none;
+            color: #42a5f5;
+            cursor: pointer;
+            text-decoration: underline;
+            font-size: inherit;
+        }
+
+        /* Dashboard */
+        .dashboard {
+            display: none;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .dashboard-title {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, #42a5f5, #ef5350);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .connection-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: #ef5350;
+            animation: pulse 2s infinite;
+        }
+
+        .status-indicator.connected {
+            background: #4caf50;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: #b3b3b3;
+            font-size: 0.9rem;
+        }
+
+        /* QR Code */
+        .qr-section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .qr-code {
+            max-width: 300px;
+            margin: 1rem auto;
+            padding: 1rem;
+            background: white;
+            border-radius: 15px;
+        }
+
+        .qr-code img {
+            width: 100%;
+            height: auto;
+        }
+
+        /* Sections */
+        .section {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        /* Groups */
+        .groups-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .group-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .group-card:hover {
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .group-card.selected {
+            border-color: #42a5f5;
+            background: rgba(66, 165, 245, 0.1);
+        }
+
+        .group-name {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+
+        .group-participants {
+            color: #b3b3b3;
+            font-size: 0.9rem;
+        }
+
+        /* Schedule Form */
+        .schedule-form {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .days-selector {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .day-btn {
+            padding: 0.5rem 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            background: transparent;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .day-btn.selected {
+            background: #42a5f5;
+            border-color: #42a5f5;
+        }
+
+        /* Schedule List */
+        .schedule-list {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .schedule-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .schedule-item.inactive {
+            opacity: 0.5;
+        }
+
+        .schedule-info h4 {
+            margin-bottom: 0.5rem;
+            color: #42a5f5;
+        }
+
+        .schedule-details {
+            color: #b3b3b3;
+            font-size: 0.9rem;
+        }
+
+        .schedule-actions {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 25px;
+            background: #ccc;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .toggle-switch.active {
+            background: #4caf50;
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 21px;
+            height: 21px;
+            background: white;
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        .toggle-switch.active::after {
+            transform: translateX(25px);
+        }
+
+        /* Loading */
         .loading {
             display: inline-block;
             width: 20px;
             height: 20px;
-            border: 3px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(255, 255, 255, 0.3);
             border-radius: 50%;
-            border-top-color: #fff;
+            border-top-color: #42a5f5;
             animation: spin 1s ease-in-out infinite;
         }
 
@@ -249,362 +474,813 @@
             to { transform: rotate(360deg); }
         }
 
-        .alert {
-            padding: 15px;
+        /* Notifications */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
             border-radius: 10px;
-            margin-bottom: 20px;
+            color: white;
             font-weight: 500;
+            z-index: 2000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
         }
 
-        .alert-success {
-            background: rgba(16, 185, 129, 0.1);
-            border: 1px solid #10b981;
-            color: #34d399;
+        .notification.show {
+            transform: translateX(0);
         }
 
-        .alert-error {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid #ef4444;
-            color: #f87171;
+        .notification.success {
+            background: linear-gradient(45deg, #4caf50, #388e3c);
         }
 
-        .credits {
+        .notification.error {
+            background: linear-gradient(45deg, #ef5350, #d32f2f);
+        }
+
+        .notification.info {
+            background: linear-gradient(45deg, #42a5f5, #1976d2);
+        }
+
+        /* Footer */
+        .footer {
             text-align: center;
-            margin-top: 30px;
-            padding-top: 20px;
-            border-top: 1px solid rgba(100, 116, 139, 0.3);
-            color: #64748b;
-            font-size: 0.9rem;
+            padding: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 3rem;
+            color: #b3b3b3;
         }
 
-        .credits strong {
-            background: linear-gradient(135deg, #3b82f6 0%, #dc2626 100%);
+        .footer-brand {
+            font-size: 1.2rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #42a5f5, #ef5350);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
-            font-weight: 700;
+            margin-bottom: 0.5rem;
         }
 
-        .password-toggle {
-            position: absolute;
-            right: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: #64748b;
-            cursor: pointer;
-            font-size: 1.1rem;
-            transition: color 0.3s ease;
-        }
-
-        .password-toggle:hover {
-            color: #3b82f6;
-        }
-
-        @media (max-width: 480px) {
-            .login-container {
-                margin: 20px;
-                padding: 30px 25px;
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-content {
+                padding: 1rem;
             }
-            
-            .logo h1 {
-                font-size: 1.8rem;
+
+            .header-content {
+                padding: 0 1rem;
             }
-            
-            .logo i {
-                font-size: 3rem;
+
+            .dashboard-header {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .groups-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .schedule-item {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
             }
         }
     </style>
 </head>
 <body>
-    <div class="background-animation">
-        <div class="floating-element"></div>
-        <div class="floating-element"></div>
-        <div class="floating-element"></div>
-    </div>
-
-    <div class="login-container">
-        <div class="logo">
-            <i class="fab fa-whatsapp"></i>
-            <h1>WhatsApp Bot</h1>
-            <p>Sistema de Automação YouTube</p>
-        </div>
-
-        <div class="form-tabs">
-            <button class="tab-button active" id="loginTab">
-                <i class="fas fa-sign-in-alt"></i> Entrar
-            </button>
-            <button class="tab-button" id="registerTab">
-                <i class="fas fa-user-plus"></i> Cadastrar
-            </button>
-        </div>
-
-        <div id="alertContainer"></div>
-
-        <!-- Formulário de Login -->
-        <div id="loginForm" class="form-content active">
-            <form id="loginFormElement">
-                <div class="form-group">
-                    <label for="loginUsername">Usuário ou Email</label>
-                    <div class="input-container">
-                        <i class="fas fa-user input-icon"></i>
-                        <input type="text" id="loginUsername" class="form-control" placeholder="Digite seu usuário ou email" required>
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <label for="loginPassword">Senha</label>
-                    <div class="input-container">
-                        <i class="fas fa-lock input-icon"></i>
-                        <input type="password" id="loginPassword" class="form-control" placeholder="Digite sua senha" required>
-                        <i class="fas fa-eye password-toggle" onclick="togglePassword('loginPassword', this)"></i>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn btn-primary" id="loginButton">
-                    <i class="fas fa-sign-in-alt"></i>
-                    <span>Entrar</span>
+    <!-- Header -->
+    <header class="header">
+        <div class="header-content">
+            <div class="logo">
+                <i class="fab fa-whatsapp"></i>
+                WhatsApp Bot Manager
+            </div>
+            <div class="user-info">
+                <div class="user-avatar" id="userAvatar"></div>
+                <span id="username"></span>
+                <button class="btn btn-danger" onclick="logout()">
+                    <i class="fas fa-sign-out-alt"></i>
+                    Sair
                 </button>
-            </form>
+            </div>
+        </div>
+    </header>
+
+    <main class="main-content">
+        <!-- Auth Section -->
+        <div class="auth-container" id="authSection">
+            <div class="auth-box">
+                <h2 class="auth-title" id="authTitle">Entrar</h2>
+                
+                <!-- Login Form -->
+                <form id="loginForm">
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control" id="loginEmail" placeholder="seu@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Senha</label>
+                        <input type="password" class="form-control" id="loginPassword" placeholder="Sua senha" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary" style="width: 100%;">
+                        <i class="fas fa-sign-in-alt"></i>
+                        Entrar
+                    </button>
+                </form>
+
+                <!-- Register Form -->
+                <form id="registerForm" style="display: none;">
+                    <div class="form-group">
+                        <label>Nome de usuário</label>
+                        <input type="text" class="form-control" id="registerUsername" placeholder="Seu nome de usuário" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" class="form-control" id="registerEmail" placeholder="seu@email.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Senha</label>
+                        <input type="password" class="form-control" id="registerPassword" placeholder="Sua senha" required>
+                    </div>
+                    <button type="submit" class="btn btn-success" style="width: 100%;">
+                        <i class="fas fa-user-plus"></i>
+                        Criar Conta
+                    </button>
+                </form>
+
+                <div class="auth-switch">
+                    <span id="authSwitchText">Não tem conta?</span>
+                    <button type="button" id="authSwitchBtn" onclick="toggleAuthMode()">Criar uma</button>
+                </div>
+            </div>
         </div>
 
-        <!-- Formulário de Cadastro -->
-        <div id="registerForm" class="form-content">
-            <form id="registerFormElement">
-                <div class="form-group">
-                    <label for="registerUsername">Nome de Usuário</label>
-                    <div class="input-container">
-                        <i class="fas fa-user input-icon"></i>
-                        <input type="text" id="registerUsername" class="form-control" placeholder="Escolha um nome de usuário" required>
+        <!-- Dashboard -->
+        <div class="dashboard" id="dashboardSection">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">
+                    <i class="fas fa-tachometer-alt"></i>
+                    Dashboard
+                </h1>
+                <div class="connection-status">
+                    <div class="status-indicator" id="statusIndicator"></div>
+                    <span id="connectionStatus">Desconectado</span>
+                </div>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon" style="color: #42a5f5;">
+                        <i class="fas fa-paper-plane"></i>
+                    </div>
+                    <div class="stat-value" id="messagesSent">0</div>
+                    <div class="stat-label">Mensagens Enviadas</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="color: #ef5350;">
+                        <i class="fab fa-youtube"></i>
+                    </div>
+                    <div class="stat-value" id="videosShared">0</div>
+                    <div class="stat-label">Vídeos Compartilhados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="color: #4caf50;">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-value" id="groupsCount">0</div>
+                    <div class="stat-label">Grupos Conectados</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon" style="color: #ff9800;">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-value" id="schedulesCount">0</div>
+                    <div class="stat-label">Agendamentos Ativos</div>
+                </div>
+            </div>
+
+            <!-- WhatsApp Connection -->
+            <div class="section">
+                <h3 class="section-title">
+                    <i class="fab fa-whatsapp"></i>
+                    Conexão WhatsApp
+                </h3>
+                
+                <div class="qr-section" id="qrSection">
+                    <p>Escaneie o QR Code abaixo com seu WhatsApp para conectar:</p>
+                    <div class="qr-code" id="qrCode" style="display: none;">
+                        <img id="qrImage" alt="QR Code">
+                    </div>
+                    <div id="connectionMessage">
+                        <p>Clique em "Conectar WhatsApp" para gerar o QR Code</p>
+                    </div>
+                    <div style="margin-top: 1rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                        <button class="btn btn-success" onclick="connectWhatsApp()">
+                            <i class="fas fa-qrcode"></i>
+                            Conectar WhatsApp
+                        </button>
+                        <button class="btn btn-danger" onclick="disconnectWhatsApp()">
+                            <i class="fas fa-unlink"></i>
+                            Desconectar
+                        </button>
                     </div>
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label for="registerEmail">Email</label>
-                    <div class="input-container">
-                        <i class="fas fa-envelope input-icon"></i>
-                        <input type="email" id="registerEmail" class="form-control" placeholder="Digite seu email" required>
-                    </div>
+            <!-- Groups Section -->
+            <div class="section">
+                <h3 class="section-title">
+                    <i class="fas fa-users"></i>
+                    Grupos (<span id="groupsTotal">0</span>)
+                </h3>
+                <div class="groups-grid" id="groupsList">
+                    <p style="text-align: center; color: #b3b3b3;">
+                        Conecte seu WhatsApp para carregar os grupos
+                    </p>
+                </div>
+            </div>
+
+            <!-- Schedule Section -->
+            <div class="section">
+                <h3 class="section-title">
+                    <i class="fas fa-calendar-alt"></i>
+                    Agendamentos
+                </h3>
+
+                <!-- Schedule Form -->
+                <div class="schedule-form">
+                    <h4 style="margin-bottom: 1.5rem;">
+                        <i class="fas fa-plus"></i>
+                        Novo Agendamento
+                    </h4>
+                    
+                    <form id="scheduleForm">
+                        <div class="form-group">
+                            <label>Nome do Agendamento</label>
+                            <input type="text" class="form-control" id="scheduleName" placeholder="Ex: Divulgação diária" required>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Horário</label>
+                                <input type="time" class="form-control" id="scheduleTime" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Dias da Semana</label>
+                                <div class="days-selector">
+                                    <button type="button" class="day-btn" data-day="0">Dom</button>
+                                    <button type="button" class="day-btn" data-day="1">Seg</button>
+                                    <button type="button" class="day-btn" data-day="2">Ter</button>
+                                    <button type="button" class="day-btn" data-day="3">Qua</button>
+                                    <button type="button" class="day-btn" data-day="4">Qui</button>
+                                    <button type="button" class="day-btn" data-day="5">Sex</button>
+                                    <button type="button" class="day-btn" data-day="6">Sáb</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-save"></i>
+                            Salvar Agendamento
+                        </button>
+                    </form>
                 </div>
 
-                <div class="form-group">
-                    <label for="registerPassword">Senha</label>
-                    <div class="input-container">
-                        <i class="fas fa-lock input-icon"></i>
-                        <input type="password" id="registerPassword" class="form-control" placeholder="Crie uma senha segura" required>
-                        <i class="fas fa-eye password-toggle" onclick="togglePassword('registerPassword', this)"></i>
-                    </div>
+                <!-- Schedule List -->
+                <div class="schedule-list" id="scheduleList">
+                    <p style="text-align: center; color: #b3b3b3;">
+                        Nenhum agendamento criado ainda
+                    </p>
                 </div>
-
-                <div class="form-group">
-                    <label for="confirmPassword">Confirmar Senha</label>
-                    <div class="input-container">
-                        <i class="fas fa-lock input-icon"></i>
-                        <input type="password" id="confirmPassword" class="form-control" placeholder="Confirme sua senha" required>
-                        <i class="fas fa-eye password-toggle" onclick="togglePassword('confirmPassword', this)"></i>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn btn-primary" id="registerButton">
-                    <i class="fas fa-user-plus"></i>
-                    <span>Criar Conta</span>
-                </button>
-            </form>
+            </div>
         </div>
+    </main>
 
-        <div class="credits">
-            Desenvolvido por <strong>Wallysson Studio Dv</strong> © 2025<br>
-            <small>Sistema de Automação WhatsApp para YouTube</small>
-        </div>
-    </div>
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-brand">🚀 Wallysson Studio Dv 2025</div>
+        <p>Sistema completo de automação para WhatsApp com tecnologia Baileys</p>
+        <p style="font-size: 0.8rem; opacity: 0.7;">Desenvolvido com ❤️ para facilitar sua comunicação</p>
+    </footer>
 
+    <!-- Notifications -->
+    <div id="notifications"></div>
+
+    <!-- Socket.IO -->
+    <script src="/socket.io/socket.io.js"></script>
+    
     <script>
-        // Alternar entre abas
-        document.getElementById('loginTab').addEventListener('click', () => {
-            showTab('login');
+        // Global variables
+        let authMode = 'login';
+        let socket = io();
+        let currentUser = null;
+        let selectedGroups = [];
+        let selectedDays = [];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            checkAuth();
+            setupEventListeners();
+            setupSocketListeners();
         });
 
-        document.getElementById('registerTab').addEventListener('click', () => {
-            showTab('register');
-        });
-
-        function showTab(tab) {
-            // Remover classes ativas
-            document.querySelectorAll('.tab-button').forEach(btn => btn.classList.remove('active'));
-            document.querySelectorAll('.form-content').forEach(content => content.classList.remove('active'));
-
-            // Adicionar classe ativa
-            if (tab === 'login') {
-                document.getElementById('loginTab').classList.add('active');
-                document.getElementById('loginForm').classList.add('active');
-            } else {
-                document.getElementById('registerTab').classList.add('active');
-                document.getElementById('registerForm').classList.add('active');
-            }
-
-            clearAlerts();
-        }
-
-        // Mostrar/ocultar senha
-        function togglePassword(inputId, icon) {
-            const input = document.getElementById(inputId);
-            if (input.type === 'password') {
-                input.type = 'text';
-                icon.classList.remove('fa-eye');
-                icon.classList.add('fa-eye-slash');
-            } else {
-                input.type = 'password';
-                icon.classList.remove('fa-eye-slash');
-                icon.classList.add('fa-eye');
-            }
-        }
-
-        // Mostrar alerta
-        function showAlert(message, type = 'error') {
-            const alertContainer = document.getElementById('alertContainer');
-            const alert = document.createElement('div');
-            alert.className = `alert alert-${type}`;
-            alert.innerHTML = `<i class="fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}"></i> ${message}`;
+        // Check authentication
+        function checkAuth() {
+            const token = localStorage.getItem('token');
+            const userData = localStorage.getItem('userData');
             
-            alertContainer.innerHTML = '';
-            alertContainer.appendChild(alert);
+            if (token && userData) {
+                currentUser = JSON.parse(userData);
+                showDashboard();
+                loadDashboardData();
+            } else {
+                showAuth();
+            }
+        }
 
-            setTimeout(() => {
-                alert.style.opacity = '0';
-                setTimeout(() => {
-                    if (alert.parentNode) {
-                        alert.parentNode.removeChild(alert);
+        // Setup event listeners
+        function setupEventListeners() {
+            // Auth forms
+            document.getElementById('loginForm').addEventListener('submit', handleLogin);
+            document.getElementById('registerForm').addEventListener('submit', handleRegister);
+            
+            // Schedule form
+            document.getElementById('scheduleForm').addEventListener('submit', handleSchedule);
+            
+            // Day buttons
+            document.querySelectorAll('.day-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const day = parseInt(this.dataset.day);
+                    toggleDay(day);
+                    this.classList.toggle('selected');
+                });
+            });
+        }
+
+        // Setup socket listeners
+        function setupSocketListeners() {
+            socket.on('qr-code', (data) => {
+                if (data.userId === currentUser.id) {
+                    showQRCode(data.qr);
+                }
+            });
+
+            socket.on('connection-status', (data) => {
+                if (data.userId === currentUser.id) {
+                    updateConnectionStatus(data.connected);
+                    if (data.connected) {
+                        hideQRCode();
                     }
-                }, 300);
-            }, 5000);
+                }
+            });
+
+            socket.on('groups-loaded', (data) => {
+                if (data.userId === currentUser.id) {
+                    displayGroups(data.groups);
+                }
+            });
+
+            socket.on('connection-error', (data) => {
+                if (data.userId === currentUser.id) {
+                    showNotification('Erro na conexão: ' + data.error, 'error');
+                }
+            });
         }
 
-        function clearAlerts() {
-            document.getElementById('alertContainer').innerHTML = '';
+        // Auth functions
+        function toggleAuthMode() {
+            authMode = authMode === 'login' ? 'register' : 'login';
+            
+            if (authMode === 'login') {
+                document.getElementById('authTitle').textContent = 'Entrar';
+                document.getElementById('loginForm').style.display = 'block';
+                document.getElementById('registerForm').style.display = 'none';
+                document.getElementById('authSwitchText').textContent = 'Não tem conta?';
+                document.getElementById('authSwitchBtn').textContent = 'Criar uma';
+            } else {
+                document.getElementById('authTitle').textContent = 'Criar Conta';
+                document.getElementById('loginForm').style.display = 'none';
+                document.getElementById('registerForm').style.display = 'block';
+                document.getElementById('authSwitchText').textContent = 'Já tem conta?';
+                document.getElementById('authSwitchBtn').textContent = 'Fazer login';
+            }
         }
 
-        // Formulário de login
-        document.getElementById('loginFormElement').addEventListener('submit', async (e) => {
+        async function handleLogin(e) {
             e.preventDefault();
             
-            const username = document.getElementById('loginUsername').value;
+            const email = document.getElementById('loginEmail').value;
             const password = document.getElementById('loginPassword').value;
-            const loginButton = document.getElementById('loginButton');
-
-            if (!username || !password) {
-                showAlert('Por favor, preencha todos os campos.');
-                return;
-            }
-
-            loginButton.disabled = true;
-            loginButton.innerHTML = '<div class="loading"></div><span>Entrando...</span>';
-
+            
             try {
                 const response = await fetch('/api/login', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ username, password }),
+                    body: JSON.stringify({ email, password })
                 });
-
+                
                 const data = await response.json();
-
+                
                 if (data.success) {
-                    showAlert('Login realizado com sucesso!', 'success');
                     localStorage.setItem('token', data.token);
-                    localStorage.setItem('user', JSON.stringify(data.user));
-                    
-                    setTimeout(() => {
-                        window.location.href = '/dashboard';
-                    }, 1500);
+                    localStorage.setItem('userData', JSON.stringify(data.user));
+                    currentUser = data.user;
+                    showDashboard();
+                    loadDashboardData();
+                    showNotification('Login realizado com sucesso!', 'success');
                 } else {
-                    showAlert(data.error || 'Erro ao fazer login.');
+                    showNotification(data.error, 'error');
                 }
             } catch (error) {
-                console.error('Erro no login:', error);
-                showAlert('Erro de conexão. Tente novamente.');
-            } finally {
-                loginButton.disabled = false;
-                loginButton.innerHTML = '<i class="fas fa-sign-in-alt"></i><span>Entrar</span>';
+                showNotification('Erro de conexão', 'error');
             }
-        });
+        }
 
-        // Formulário de cadastro
-        document.getElementById('registerFormElement').addEventListener('submit', async (e) => {
+        async function handleRegister(e) {
             e.preventDefault();
             
             const username = document.getElementById('registerUsername').value;
             const email = document.getElementById('registerEmail').value;
             const password = document.getElementById('registerPassword').value;
-            const confirmPassword = document.getElementById('confirmPassword').value;
-            const registerButton = document.getElementById('registerButton');
-
-            if (!username || !email || !password || !confirmPassword) {
-                showAlert('Por favor, preencha todos os campos.');
-                return;
-            }
-
-            if (password !== confirmPassword) {
-                showAlert('As senhas não coincidem.');
-                return;
-            }
-
-            if (password.length < 6) {
-                showAlert('A senha deve ter pelo menos 6 caracteres.');
-                return;
-            }
-
-            registerButton.disabled = true;
-            registerButton.innerHTML = '<div class="loading"></div><span>Criando conta...</span>';
-
+            
             try {
                 const response = await fetch('/api/register', {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ username, email, password }),
+                    body: JSON.stringify({ username, email, password })
                 });
-
+                
                 const data = await response.json();
-
+                
                 if (data.success) {
-                    showAlert('Conta criada com sucesso!', 'success');
                     localStorage.setItem('token', data.token);
-                    localStorage.setItem('user', JSON.stringify(data.user));
-                    
-                    setTimeout(() => {
-                        window.location.href = '/dashboard';
-                    }, 1500);
+                    localStorage.setItem('userData', JSON.stringify(data.user));
+                    currentUser = data.user;
+                    showDashboard();
+                    loadDashboardData();
+                    showNotification('Conta criada com sucesso!', 'success');
                 } else {
-                    showAlert(data.error || 'Erro ao criar conta.');
+                    showNotification(data.error, 'error');
                 }
             } catch (error) {
-                console.error('Erro no cadastro:', error);
-                showAlert('Erro de conexão. Tente novamente.');
-            } finally {
-                registerButton.disabled = false;
-                registerButton.innerHTML = '<i class="fas fa-user-plus"></i><span>Criar Conta</span>';
+                showNotification('Erro de conexão', 'error');
             }
-        });
-
-        // Verificar se já está logado
-        if (localStorage.getItem('token')) {
-            window.location.href = '/dashboard';
         }
 
-        // Animação de entrada
-        window.addEventListener('load', () => {
-            document.querySelector('.login-container').style.opacity = '0';
-            document.querySelector('.login-container').style.transform = 'translateY(50px)';
+        function logout() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('userData');
+            currentUser = null;
+            showAuth();
+            showNotification('Logout realizado com sucesso!', 'info');
+        }
+
+        // UI functions
+        function showAuth() {
+            document.getElementById('authSection').style.display = 'flex';
+            document.getElementById('dashboardSection').style.display = 'none';
+            document.querySelector('.user-info').style.display = 'none';
+        }
+
+        function showDashboard() {
+            document.getElementById('authSection').style.display = 'none';
+            document.getElementById('dashboardSection').style.display = 'block';
+            document.querySelector('.user-info').style.display = 'flex';
+            
+            // Update user info
+            document.getElementById('username').textContent = currentUser.username;
+            document.getElementById('userAvatar').textContent = currentUser.username.charAt(0).toUpperCase();
+        }
+
+        // Dashboard functions
+        async function loadDashboardData() {
+            try {
+                const response = await fetch('/api/dashboard-data', {
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    updateStats(data.stats);
+                    updateConnectionStatus(data.connected);
+                    displayGroups(data.groups);
+                    displaySchedules(data.schedules);
+                } else {
+                    showNotification(data.error, 'error');
+                }
+            } catch (error) {
+                showNotification('Erro ao carregar dados', 'error');
+            }
+        }
+
+        function updateStats(stats) {
+            document.getElementById('messagesSent').textContent = stats.messagesSent || 0;
+            document.getElementById('videosShared').textContent = stats.videosShared || 0;
+        }
+
+        function updateConnectionStatus(connected) {
+            const indicator = document.getElementById('statusIndicator');
+            const status = document.getElementById('connectionStatus');
+            
+            if (connected) {
+                indicator.classList.add('connected');
+                status.textContent = 'Conectado';
+            } else {
+                indicator.classList.remove('connected');
+                status.textContent = 'Desconectado';
+            }
+        }
+
+        // WhatsApp functions
+        async function connectWhatsApp() {
+            try {
+                showNotification('Iniciando conexão...', 'info');
+                
+                const response = await fetch('/api/connect-whatsapp', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    document.getElementById('connectionMessage').innerHTML = '<p>Aguardando QR Code...</p>';
+                } else {
+                    showNotification(data.error, 'error');
+                }
+            } catch (error) {
+                showNotification('Erro ao conectar', 'error');
+            }
+        }
+
+        async function disconnectWhatsApp() {
+            try {
+                const response = await fetch('/api/disconnect-whatsapp', {
+                    method: 'POST',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    hideQRCode();
+                    updateConnectionStatus(false);
+                    showNotification('WhatsApp desconectado', 'info');
+                } else {
+                    showNotification(data.error, 'error');
+                }
+            } catch (error) {
+                showNotification('Erro ao desconectar', 'error');
+            }
+        }
+
+        function showQRCode(qrData) {
+            document.getElementById('qrImage').src = qrData;
+            document.getElementById('qrCode').style.display = 'block';
+            document.getElementById('connectionMessage').innerHTML = '<p><strong>Escaneie o QR Code com seu WhatsApp</strong></p>';
+        }
+
+        function hideQRCode() {
+            document.getElementById('qrCode').style.display = 'none';
+            document.getElementById('connectionMessage').innerHTML = '<p>WhatsApp conectado com sucesso!</p>';
+        }
+
+        // Groups functions
+        function displayGroups(groups) {
+            const groupsList = document.getElementById('groupsList');
+            const groupsTotal = document.getElementById('groupsTotal');
+            const groupsCount = document.getElementById('groupsCount');
+            
+            groupsTotal.textContent = groups.length;
+            groupsCount.textContent = groups.length;
+            
+            if (groups.length === 0) {
+                groupsList.innerHTML = '<p style="text-align: center; color: #b3b3b3;">Nenhum grupo encontrado</p>';
+                return;
+            }
+            
+            groupsList.innerHTML = groups.map(group => `
+                <div class="group-card" onclick="toggleGroup('${group.id}')">
+                    <div class="group-name">${group.name}</div>
+                    <div class="group-participants">${group.participants} participantes</div>
+                </div>
+            `).join('');
+        }
+
+        function toggleGroup(groupId) {
+            const groupCard = event.currentTarget;
+            
+            if (selectedGroups.includes(groupId)) {
+                selectedGroups = selectedGroups.filter(id => id !== groupId);
+                groupCard.classList.remove('selected');
+            } else {
+                selectedGroups.push(groupId);
+                groupCard.classList.add('selected');
+            }
+        }
+
+        // Schedule functions
+        function toggleDay(day) {
+            if (selectedDays.includes(day)) {
+                selectedDays = selectedDays.filter(d => d !== day);
+            } else {
+                selectedDays.push(day);
+            }
+        }
+
+        async function handleSchedule(e) {
+            e.preventDefault();
+            
+            const name = document.getElementById('scheduleName').value;
+            const time = document.getElementById('scheduleTime').value;
+            
+            if (selectedDays.length === 0) {
+                showNotification('Selecione pelo menos um dia da semana', 'error');
+                return;
+            }
+            
+            if (selectedGroups.length === 0) {
+                showNotification('Selecione pelo menos um grupo', 'error');
+                return;
+            }
+            
+            try {
+                const response = await fetch('/api/save-schedule', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    },
+                    body: JSON.stringify({
+                        name,
+                        time,
+                        days: selectedDays,
+                        groups: selectedGroups
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    showNotification('Agendamento salvo com sucesso!', 'success');
+                    resetScheduleForm();
+                    loadDashboardData();
+                } else {
+                    showNotification(data.error, 'error');
+                }
+            } catch (error) {
+                showNotification('Erro ao salvar agendamento', 'error');
+            }
+        }
+
+        function resetScheduleForm() {
+            document.getElementById('scheduleForm').reset();
+            selectedDays = [];
+            selectedGroups = [];
+            
+            document.querySelectorAll('.day-btn').forEach(btn => btn.classList.remove('selected'));
+            document.querySelectorAll('.group-card').forEach(card => card.classList.remove('selected'));
+        }
+
+        function displaySchedules(schedules) {
+            const scheduleList = document.getElementById('scheduleList');
+            const schedulesCount = document.getElementById('schedulesCount');
+            
+            const activeSchedules = schedules.filter(s => s.active);
+            schedulesCount.textContent = activeSchedules.length;
+            
+            if (schedules.length === 0) {
+                scheduleList.innerHTML = '<p style="text-align: center; color: #b3b3b3;">Nenhum agendamento criado ainda</p>';
+                return;
+            }
+            
+            const dayNames = ['Dom', 'Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb'];
+            
+            scheduleList.innerHTML = schedules.map(schedule => `
+                <div class="schedule-item ${!schedule.active ? 'inactive' : ''}">
+                    <div class="schedule-info">
+                        <h4>${schedule.name}</h4>
+                        <div class="schedule-details">
+                            <i class="fas fa-clock"></i> ${schedule.time} | 
+                            <i class="fas fa-calendar"></i> ${schedule.days.map(d => dayNames[d]).join(', ')} |
+                            <i class="fas fa-users"></i> ${schedule.groups.length} grupos
+                        </div>
+                    </div>
+                    <div class="schedule-actions">
+                        <div class="toggle-switch ${schedule.active ? 'active' : ''}" 
+                             onclick="toggleSchedule('${schedule.id}')">
+                        </div>
+                        <button class="btn btn-danger" onclick="deleteSchedule('${schedule.id}')" 
+                                style="padding: 0.5rem;">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function toggleSchedule(scheduleId) {
+            try {
+                const response = await fetch(`/api/schedule/${scheduleId}/toggle`, {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    loadDashboardData();
+                    showNotification('Status do agendamento alterado', 'info');
+                } else {
+                    showNotification(data.error, 'error');
+                }
+            } catch (error) {
+                showNotification('Erro ao alterar status', 'error');
+            }
+        }
+
+        async function deleteSchedule(scheduleId) {
+            if (!confirm('Tem certeza que deseja excluir este agendamento?')) {
+                return;
+            }
+            
+            try {
+                const response = await fetch(`/api/schedule/${scheduleId}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': 'Bearer ' + localStorage.getItem('token')
+                    }
+                });
+                
+                const data = await response.json();
+                
+                if (data.success) {
+                    loadDashboardData();
+                    showNotification('Agendamento excluído', 'success');
+                } else {
+                    showNotification(data.error, 'error');
+                }
+            } catch (error) {
+                showNotification('Erro ao excluir agendamento', 'error');
+            }
+        }
+
+        // Utility functions
+        function showNotification(message, type = 'info') {
+            const notificationId = Date.now();
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+                ${message}
+            `;
+            
+            document.getElementById('notifications').appendChild(notification);
+            
+            setTimeout(() => notification.classList.add('show'), 100);
             
             setTimeout(() => {
-                document.querySelector('.login-container').style.transition = 'all 0.8s ease';
-                document.querySelector('.login-container').style.opacity = '1';
-                document.querySelector('.login-container').style.transform = 'translateY(0)';
-            }, 100);
-        });
+                notification.classList.remove('show');
+                setTimeout(() => notification.remove(), 300);
+            }, 4000);
+        }
+
+        // Auto refresh dashboard data every 30 seconds
+        setInterval(() => {
+            if (currentUser && document.getElementById('dashboardSection').style.display !== 'none') {
+                loadDashboardData();
+            }
+        }, 30000);
     </script>
 </body>
-</html>
+</html><!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WhatsApp YouTube Bot - Wallysson Studio Dv 2025
